@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#071426"><title>NOCTA 1.6</title>
+<style>
+:root{--bg:#071426;--panel:#0d2038;--panel2:#132b49;--gold:#d9b568;--gold2:#f0d69a;--txt:#f4f6fa;--muted:#9baec4;--line:#203955}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at top,#142d4a 0,#071426 55%);color:var(--txt);font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;min-height:100vh;padding-bottom:142px}
+header{padding:20px 18px 14px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;background:#071426ef;backdrop-filter:blur(14px);z-index:3;border-bottom:1px solid #ffffff0b}
+.logo{font-size:27px;letter-spacing:5px;font-weight:850;color:var(--gold)}.tag{font-size:10px;letter-spacing:2px;color:var(--muted)}
+main{max-width:740px;margin:auto;padding:17px}h2{font-size:18px;margin:20px 0 10px}.sub{color:var(--muted);font-size:13px;margin-top:-6px}
+.search{display:flex;align-items:center;gap:10px;background:var(--panel);border:1px solid var(--line);border-radius:15px;padding:0 14px;margin:12px 0 15px}.search input{width:100%;padding:14px 0;border:0;outline:0;background:transparent;color:var(--txt);font-size:15px}
+.actions{display:flex;gap:9px;flex-wrap:wrap}.btn{border:1px solid #38506b;background:var(--panel2);color:var(--txt);padding:10px 13px;border-radius:12px;font-weight:650;font-size:12px}.btn.primary{background:linear-gradient(135deg,#e7c77f,#b98d43);color:#101a28;border:0}input[type=file]{display:none}
+.tabs{display:flex;gap:7px;margin:16px 0 12px;flex-wrap:wrap}.tab{border:1px solid var(--line);border-radius:20px;padding:8px 12px;color:var(--muted);font-size:12px;background:transparent}.tab.active{background:#d9b5681a;border-color:var(--gold);color:var(--gold2)}
+.ytbox{background:#0d2038;border:1px solid #304963;border-radius:16px;padding:12px;margin:10px 0 16px}.ytframe{width:100%;aspect-ratio:16/9;border:0;border-radius:12px;background:#000}.ytcaption{font-size:12px;color:var(--muted);margin:8px 2px 2px}.catalog-card{display:flex;align-items:center;gap:10px;padding:11px 8px;border-bottom:1px solid #ffffff0c}.catalog-card .meta{min-width:0;flex:1}.catalog-actions{display:flex;gap:6px;flex-wrap:wrap}.catalog-link{display:inline-block;text-decoration:none;border:1px solid #53627a;background:#132b49;color:#f4f6fa;padding:8px 10px;border-radius:10px;font-size:11px;font-weight:650}.catalog-import{border:0;background:linear-gradient(135deg,#e7c77f,#b98d43);color:#101a28;padding:8px 10px;border-radius:10px;font-size:11px;font-weight:700}
+.track{display:flex;align-items:center;gap:10px;padding:10px 7px;border-bottom:1px solid #ffffff0c;border-radius:12px}.cover{width:46px;height:46px;border-radius:10px;background:linear-gradient(135deg,#1e4266,#b88c48);display:grid;place-items:center;color:#f4d99d;font-size:20px;flex-shrink:0}.meta{min-width:0;flex:1}.title{font-weight:650;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.artist{font-size:12px;color:var(--muted);margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.icon{background:transparent;border:0;color:var(--gold2);font-size:18px;padding:7px}.empty{border:1px dashed #38506b;border-radius:16px;padding:22px;text-align:center;color:var(--muted);font-size:13px;line-height:1.6}
+.playlist{display:flex;align-items:center;gap:12px;padding:12px;background:var(--panel);border:1px solid var(--line);border-radius:13px;margin:8px 0}.playlist .cover{background:linear-gradient(135deg,#243c60,#c49a52)}
+.player{position:fixed;bottom:0;left:0;right:0;background:#09182bf2;backdrop-filter:blur(18px);border-top:1px solid #30445b;padding:9px 15px calc(9px + env(safe-area-inset-bottom));z-index:5}
+.now{display:flex;align-items:center;gap:10px;max-width:740px;margin:auto}.now .cover{width:40px;height:40px}.now .meta{flex:1}.controls{display:flex;align-items:center;justify-content:center;gap:17px;margin:5px auto 0}.controls button{font-size:20px}.controls .play{background:var(--gold);color:#101a28;border:0;width:42px;height:42px;border-radius:50%;font-size:19px}
+.progress{display:flex;align-items:center;gap:8px;max-width:740px;margin:6px auto 0;color:var(--muted);font-size:10px}.progress input{flex:1;accent-color:var(--gold);height:3px}
+.note{font-size:11px;color:var(--muted);line-height:1.5;margin-top:22px}
+@media(min-width:600px){main{padding:24px}}
+</style></head>
+<body>
+<header><div><div class="logo">NOCTA</div><div class="tag">YOUR MUSIC. YOUR SPACE.</div></div><div class="tag">v1.6</div></header>
+<main>
+<h2 id="sectionTitle">Tu biblioteca</h2><p class="sub" id="sectionSub">Tu música, organizada a tu manera.</p>
+<div class="search"><span>⌕</span><input id="search" placeholder="Buscar canciones o artistas..." autocomplete="off"></div>
+<div class="actions">
+<label class="btn primary" for="files">＋ Importar música</label><input id="files" type="file" accept="audio/*" multiple>
+<button class="btn" id="newPlaylist">＋ Nueva playlist</button>
+<button class="btn" id="clear">Limpiar búsqueda</button>
+<button class="btn" id="exportBackup">Exportar biblioteca</button>
+<label class="btn" for="importBackup">Importar respaldo</label><input id="importBackup" type="file" accept="application/json,.json">
+</div>
+<div class="tabs">
+<button class="tab active" data-tab="all">Todas</button><button class="tab" data-tab="favorites">Favoritas</button><button class="tab" data-tab="playlists">Playlists</button><button class="tab" data-tab="queue">Cola</button><button class="tab" data-tab="trueno">Trueno</button>
+</div>
+<div id="list"></div>
+<p class="note">NOCTA reproduce archivos de audio que importes desde tu teléfono. Los archivos quedan guardados en la biblioteca local de este navegador. NOCTA 1.6 incorpora un reproductor oficial de YouTube integrado en la sección Trueno y herramientas para exportar/importar un respaldo al cambiar de dirección web. La reproducción se realiza dentro de NOCTA mediante el reproductor de YouTube; requiere conexión a internet y puede mostrar anuncios o restricciones del titular. También mejora el modo aleatorio para evitar repetir inmediatamente la canción actual. La reproducción en segundo plano y con pantalla apagada depende de Chrome, Android y el ahorro de batería; para mayor fiabilidad hace falta una app Android nativa con Media3.</p>
+</main>
+<div class="player">
+<div class="now"><div class="cover">♫</div><div class="meta"><div class="title" id="nowTitle">Elegí una canción</div><div class="artist" id="nowArtist">NOCTA Player</div></div><button class="icon" id="nowFav">♡</button></div>
+<div class="progress"><span id="current">0:00</span><input id="seek" type="range" min="0" max="1000" value="0"><span id="duration">0:00</span></div>
+<div class="controls"><button class="icon" id="shuffle">⤨</button><button class="icon" id="prev">⏮</button><button class="play" id="play">▶</button><button class="icon" id="next">⏭</button><button class="icon" id="repeat">↻</button></div>
+</div><audio id="audio" preload="metadata" playsinline></audio>
+<script>
+const DB='nocta-db', TRACKS='tracks', PLAYLISTS='playlists';let db,tracks=[],playlists=[],queue=[],currentId=null,currentUrl=null,tab='all',activePlaylist=null,shuffle=false,repeat=false;
+const audio=document.getElementById('audio'),$=id=>document.getElementById(id);
+function openDB(){return new Promise((resolve,reject)=>{let r=indexedDB.open(DB,2);r.onupgradeneeded=()=>{let d=r.result;if(!d.objectStoreNames.contains(TRACKS))d.createObjectStore(TRACKS,{keyPath:'id'});if(!d.objectStoreNames.contains(PLAYLISTS))d.createObjectStore(PLAYLISTS,{keyPath:'id'})};r.onsuccess=()=>resolve(r.result);r.onerror=()=>reject(r.error)})}
+function store(name,mode='readonly'){return db.transaction(name,mode).objectStore(name)}
+function all(name){return new Promise((res,rej)=>{let r=store(name).getAll();r.onsuccess=()=>res(r.result);r.onerror=()=>rej(r.error)})}
+function save(name,v){return new Promise((res,rej)=>{let r=store(name,'readwrite').put(v);r.onsuccess=()=>res();r.onerror=()=>rej(r.error)})}
+function uid(){return (window.crypto&&crypto.randomUUID)?crypto.randomUUID():('n'+Date.now().toString(36)+Math.random().toString(36).slice(2,10))}
+function fmt(n){if(!Number.isFinite(n))return'0:00';return Math.floor(n/60)+':'+String(Math.floor(n%60)).padStart(2,'0')}
+function esc(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+const truenoSongs=[
+ {name:'DANCE CRIP',artist:'Trueno',id:'JWRlTezTF2k'},
+ {name:'MAMICHULA',artist:'Trueno, Nicki Nicole, Bizarrap',id:'NUteQQCMa_k'},
+ {name:'FEEL ME??',artist:'Trueno',id:'MaaEVFNDQLo'},
+ {name:'BIEN O MAL',artist:'Trueno',id:'lScicH23baE'},
+ {name:'REAL GANGSTA LOVE',artist:'Trueno',id:'gaxbVfsoF6Q'},
+ {name:'APOLO 13',artist:'Duki',id:null}
+];
+function playCatalogVideo(id,name){
+ const box=$('ytbox'),frame=$('ytframe'),label=$('ytcaption');
+ if(!id){label.textContent='APOLO 13 es de Duki, no de Trueno; no hay un reproductor oficial verificado para este tema.';frame.removeAttribute('src');return;}
+ label.textContent='Reproduciendo dentro de NOCTA: '+name+' · Reproductor oficial de YouTube';
+ if(location.protocol!=='https:'){label.textContent='Para reproducir videos integrados, NOCTA debe abrirse desde una dirección HTTPS. Primero exportá tu biblioteca y luego publicá esta página en un hosting HTTPS.';frame.removeAttribute('src');return;}
+ frame.src='https://www.youtube.com/embed/'+encodeURIComponent(id)+'?autoplay=1&playsinline=1&rel=0&origin='+encodeURIComponent(location.origin);
+ box.scrollIntoView({behavior:'smooth',block:'start'});
+}
+function visibleTracks(){let q=$('search').value.toLowerCase().trim(),a=tracks.filter(t=>(tab!=='favorites'||t.favorite)&&(`${t.name} ${t.artist}`.toLowerCase().includes(q)));if(tab==='playlist'&&activePlaylist){let p=playlists.find(x=>x.id===activePlaylist);a=a.filter(t=>p&&p.trackIds.includes(t.id))}return a}
+function render(){
+ let list=$('list'),q=$('search').value.toLowerCase().trim();
+ if(tab==='trueno'){
+  let songs=truenoSongs.filter(s=>(s.name+' '+s.artist).toLowerCase().includes(q));
+  list.innerHTML='<div class="ytbox" id="ytbox"><iframe class="ytframe" id="ytframe" title="Reproductor oficial de YouTube" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe><div class="ytcaption" id="ytcaption">Elegí una canción para reproducirla acá, dentro de NOCTA.</div></div>'+songs.map(s=>`<div class="catalog-card"><div class="cover">♪</div><div class="meta"><div class="title">${esc(s.name)}</div><div class="artist">${esc(s.artist)} · ${s.id?'Video oficial':'Artista distinto'}</div></div><div class="catalog-actions"><button class="catalog-import" data-ytplay="${s.id||''}" data-ytname="${esc(s.name)}">${s.id?'▶ Reproducir':'No disponible'}</button></div></div>`).join('');
+  return;
+ }
+ if(tab==='queue'){let queued=queue.map((id,i)=>({t:tracks.find(x=>x.id===id),i})).filter(x=>x.t);list.innerHTML=queued.length?queued.map(({t,i})=>`<div class="track"><div class="cover">♫</div><div class="meta" data-play="${t.id}"><div class="title">${esc(t.name)}</div><div class="artist">${esc(t.artist||'Archivo local')}</div></div><button class="icon" data-qremove="${i}">×</button><button class="icon" data-play="${t.id}">▶</button></div>`).join(''):'<div class="empty">Tu cola está vacía.<br>Usá ≡ en una canción para agregarla.</div>';return}
+ if(tab==='playlists'){let ps=playlists.filter(p=>p.name.toLowerCase().includes(q));list.innerHTML=ps.length?ps.map(p=>`<div class="playlist"><div class="cover">♫</div><div class="meta" data-openpl="${p.id}"><div class="title">${esc(p.name)}</div><div class="artist">${p.trackIds.length} canciones</div></div><button class="icon" data-openpl="${p.id}">›</button><button class="icon" data-delpl="${p.id}">×</button></div>`).join(''):'<div class="empty">Todavía no creaste playlists.<br>Usá “Nueva playlist” para armar la primera.</div>';return}
+ let arr=visibleTracks();list.innerHTML=arr.length?arr.map(t=>`<div class="track"><div class="cover">♫</div><div class="meta" data-play="${t.id}"><div class="title">${esc(t.name)}</div><div class="artist">${esc(t.artist||'Archivo local')} · ${fmt(t.duration||0)}</div></div><button class="icon" data-queue="${t.id}" title="Agregar a la cola">≡</button><button class="icon" data-add="${t.id}" title="Agregar a playlist">＋</button><button class="icon" data-fav="${t.id}">${t.favorite?'♥':'♡'}</button><button class="icon" data-play="${t.id}">▶</button></div>`).join(''):'<div class="empty">'+(tracks.length?'No se encontraron canciones.':'Importá música desde tu teléfono para empezar.')+'</div>';
+}
+function updateNow(){let t=tracks.find(x=>x.id===currentId);$('nowTitle').textContent=t?t.name:'Elegí una canción';$('nowArtist').textContent=t?(t.artist||'Archivo local'):'NOCTA Player';$('nowFav').textContent=t&&t.favorite?'♥':'♡'}
+function setupMediaSession(t){
+ if(!('mediaSession' in navigator))return;
+ try{
+  if('MediaMetadata' in window)navigator.mediaSession.metadata=new MediaMetadata({title:t.name,artist:t.artist||'Archivo local',album:'NOCTA'});
+  const handlers=[
+   ['play',()=>audio.play()],
+   ['pause',()=>audio.pause()],
+   ['previoustrack',previous],
+   ['nexttrack',next],
+   ['stop',()=>{audio.pause();audio.currentTime=0}],
+   ['seekbackward',d=>{audio.currentTime=Math.max(0,audio.currentTime-(d.seekOffset||10))}],
+   ['seekforward',d=>{audio.currentTime=Math.min(audio.duration||Infinity,audio.currentTime+(d.seekOffset||10))}],
+   ['seekto',d=>{if(Number.isFinite(d.seekTime))audio.currentTime=d.seekTime}]
+  ];
+  for(const [action,handler] of handlers){try{navigator.mediaSession.setActionHandler(action,handler)}catch(e){}}
+ }catch(e){}
+ updateMediaState();
+}
+function updateMediaState(){
+ if(!('mediaSession' in navigator))return;
+ try{navigator.mediaSession.playbackState=audio.paused?'paused':'playing'}catch(e){}
+ try{if(Number.isFinite(audio.duration)&&audio.duration>0&&'setPositionState'in navigator.mediaSession)navigator.mediaSession.setPositionState({duration:audio.duration,playbackRate:audio.playbackRate,position:Math.min(audio.currentTime,audio.duration)})}catch(e){}
+}
+async function playTrack(id){
+ let t=tracks.find(x=>x.id===id);if(!t)return;
+ currentId=id;
+ if(currentUrl)URL.revokeObjectURL(currentUrl);
+ currentUrl=URL.createObjectURL(t.blob);
+ audio.src=currentUrl;audio.load();updateNow();setupMediaSession(t);
+ try{await audio.play()}catch(e){alert('Chrome no pudo iniciar la reproducción. Tocá ▶ para volver a intentarlo.')}
+}
+function next(){if(queue.length){let id=queue.shift();if(tab==='queue')render();playTrack(id);return}if(!tracks.length)return;let i=tracks.findIndex(t=>t.id===currentId),n;if(shuffle){let choices=tracks.filter(t=>t.id!==currentId);n=choices[Math.floor(Math.random()*choices.length)]||tracks[0]}else n=tracks[(i+1+tracks.length)%tracks.length];playTrack(n.id)}
+function previous(){if(audio.currentTime>3){audio.currentTime=0;return}let i=tracks.findIndex(t=>t.id===currentId);playTrack(tracks[(i-1+tracks.length)%tracks.length].id)}
+async function blobToDataURL(blob){return await new Promise((resolve,reject)=>{let r=new FileReader();r.onload=()=>resolve(r.result);r.onerror=()=>reject(r.error);r.readAsDataURL(blob)})}
+async function exportBackup(){
+ try{
+  const savedTracks=await all(TRACKS), savedPlaylists=await all(PLAYLISTS);
+  const payload={app:'NOCTA',version:'1.6',createdAt:new Date().toISOString(),tracks:await Promise.all(savedTracks.map(async t=>({...t,blobData:t.blob?await blobToDataURL(t.blob):null,blob:undefined}))),playlists:savedPlaylists};
+  const blob=new Blob([JSON.stringify(payload)],{type:'application/json'}),url=URL.createObjectURL(blob),a=document.createElement('a');
+  a.href=url;a.download='NOCTA_respaldo.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1500);
+  alert('Respaldo exportado. Guardalo antes de cambiar NOCTA a HTTPS.');
+ }catch(e){alert('No se pudo exportar el respaldo: '+(e.message||e));}
+}
+async function importBackup(file){
+ try{
+  const payload=JSON.parse(await file.text());if(payload.app!=='NOCTA'||!Array.isArray(payload.tracks)||!Array.isArray(payload.playlists))throw new Error('El archivo no parece un respaldo válido de NOCTA.');
+  for(const t of payload.tracks){let copy={...t};if(copy.blobData){let response=await fetch(copy.blobData);copy.blob=await response.blob();}delete copy.blobData;await save(TRACKS,copy)}
+  for(const pl of payload.playlists)await save(PLAYLISTS,pl);
+  tracks=await all(TRACKS);playlists=await all(PLAYLISTS);render();alert('Respaldo importado. Tus canciones y playlists ya están en esta versión.');
+ }catch(e){alert('No se pudo importar el respaldo: '+(e.message||e));}
+}
+$('exportBackup').onclick=exportBackup;
+$('importBackup').onchange=async e=>{if(e.target.files[0])await importBackup(e.target.files[0]);e.target.value=''};
+$('files').onchange=async e=>{for(let f of [...e.target.files])if(f.type.startsWith('audio/')){let name=f.name.replace(/\.[^.]+$/,'');await save(TRACKS,{id:uid(),name,artist:'Archivo local',duration:0,favorite:false,blob:f})}tracks=await all(TRACKS);render();e.target.value=''};
+$('list').onclick=async e=>{let yt=e.target.closest('[data-ytname]');if(yt){playCatalogVideo(yt.dataset.ytplay,yt.dataset.ytname);return}let qr=e.target.closest('[data-qremove]');if(qr){queue.splice(Number(qr.dataset.qremove),1);render();return}let p=e.target.closest('[data-play]');if(p){playTrack(p.dataset.play);return}let qadd=e.target.closest('[data-queue]');if(qadd){queue.push(qadd.dataset.queue);alert('Agregada a la cola de reproducción.');return}let f=e.target.closest('[data-fav]');if(f){let t=tracks.find(x=>x.id===f.dataset.fav);t.favorite=!t.favorite;await save(TRACKS,t);render();updateNow();return}let a=e.target.closest('[data-add]');if(a){if(!playlists.length){alert('Primero creá una playlist.');return}let choices=playlists.map((x,i)=>(i+1)+'. '+x.name).join('\n');let n=prompt('¿A qué playlist la agregamos?\n'+choices);let ix=Number(n)-1;if(Number.isInteger(ix)&&playlists[ix]){let pl=playlists[ix];if(!pl.trackIds.includes(a.dataset.add))pl.trackIds.push(a.dataset.add);await save(PLAYLISTS,pl);playlists=await all(PLAYLISTS);alert('Canción agregada a '+pl.name)}}let o=e.target.closest('[data-openpl]');if(o){activePlaylist=o.dataset.openpl;tab='playlist';let pl=playlists.find(x=>x.id===activePlaylist);$('sectionTitle').textContent=pl?.name||'Playlist';$('sectionSub').textContent='Canciones de esta playlist';document.querySelectorAll('.tab').forEach(x=>x.classList.toggle('active',x.dataset.tab==='playlists'));render();return}let d=e.target.closest('[data-delpl]');if(d&&confirm('¿Eliminar esta playlist? Las canciones originales no se borran.')){let r=store(PLAYLISTS,'readwrite').delete(d.dataset.delpl);r.onsuccess=async()=>{playlists=await all(PLAYLISTS);render()}}};
+$('newPlaylist').onclick=async()=>{
+ try{
+  let name=prompt('Nombre de la playlist:');
+  if(!name||!name.trim())return;
+  await save(PLAYLISTS,{id:uid(),name:name.trim(),trackIds:[]});
+  playlists=await all(PLAYLISTS);tab='playlists';activePlaylist=null;
+  document.querySelectorAll('.tab').forEach(x=>x.classList.toggle('active',x.dataset.tab==='playlists'));
+  $('sectionTitle').textContent='Tus playlists';$('sectionSub').textContent='Colecciones creadas por vos';render();
+ }catch(err){alert('No se pudo crear la playlist. Probá abrir NOCTA con Chrome y permitir el almacenamiento del sitio.');}
+};
+$('search').oninput=render;$('clear').onclick=()=>{$('search').value='';render()};
+document.querySelectorAll('.tab').forEach(b=>b.onclick=()=>{tab=b.dataset.tab;activePlaylist=null;$('sectionTitle').textContent=tab==='favorites'?'Tus favoritas':tab==='playlists'?'Tus playlists':tab==='queue'?'Cola de reproducción':tab==='trueno'?'Trueno':'Tu biblioteca';$('sectionSub').textContent=tab==='playlists'?'Colecciones creadas por vos':tab==='queue'?'Próximas canciones':tab==='trueno'?'Canciones y accesos a fuentes oficiales':'Tu música, organizada a tu manera.';document.querySelectorAll('.tab').forEach(x=>x.classList.toggle('active',x===b));render()});
+$('play').onclick=()=>{if(!currentId){if(tracks[0])playTrack(tracks[0].id)}else if(audio.paused)audio.play();else audio.pause()};audio.onplay=()=>{$('play').textContent='Ⅱ';updateMediaState()};audio.onpause=()=>{$('play').textContent='▶';updateMediaState()};audio.onloadedmetadata=updateMediaState;audio.ondurationchange=updateMediaState;audio.onended=()=>repeat?(audio.currentTime=0,audio.play()):next();
+$('next').onclick=next;$('prev').onclick=previous;$('shuffle').onclick=()=>{shuffle=!shuffle;$('shuffle').style.color=shuffle?'#f0d69a':''};$('repeat').onclick=()=>{repeat=!repeat;$('repeat').style.color=repeat?'#f0d69a':''};
+$('nowFav').onclick=async()=>{let t=tracks.find(x=>x.id===currentId);if(!t)return;t.favorite=!t.favorite;await save(TRACKS,t);updateNow();render()};
+audio.ontimeupdate=()=>{if(audio.duration){$('seek').value=audio.currentTime/audio.duration*1000;$('current').textContent=fmt(audio.currentTime);$('duration').textContent=fmt(audio.duration);if('mediaSession'in navigator&&Math.floor(audio.currentTime)%5===0)updateMediaState()}};$('seek').oninput=()=>{if(audio.duration)audio.currentTime=Number($('seek').value)/1000*audio.duration};
+(async()=>{try{db=await openDB();tracks=await all(TRACKS);playlists=await all(PLAYLISTS);render()}catch(e){$('list').innerHTML='<div class="empty">No se pudo abrir la biblioteca local.</div>'}})();
+</script></body></html>
