@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#071426"><title>NOCTA 1.7</title>
+<meta name="theme-color" content="#071426"><title>NOCTA 1.8</title>
 <style>
 :root{--bg:#071426;--panel:#0d2038;--panel2:#132b49;--gold:#d9b568;--gold2:#f0d69a;--txt:#f4f6fa;--muted:#9baec4;--line:#203955}
 *{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at top,#142d4a 0,#071426 55%);color:var(--txt);font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;min-height:100vh;padding-bottom:142px}
@@ -21,10 +21,18 @@ main{max-width:740px;margin:auto;padding:17px}h2{font-size:18px;margin:20px 0 10
 .now{display:flex;align-items:center;gap:10px;max-width:740px;margin:auto}.now .cover{width:40px;height:40px}.now .meta{flex:1}.controls{display:flex;align-items:center;justify-content:center;gap:17px;margin:5px auto 0}.controls button{font-size:20px}.controls .play{background:var(--gold);color:#101a28;border:0;width:42px;height:42px;border-radius:50%;font-size:19px}
 .progress{display:flex;align-items:center;gap:8px;max-width:740px;margin:6px auto 0;color:var(--muted);font-size:10px}.progress input{flex:1;accent-color:var(--gold);height:3px}
 .note{font-size:11px;color:var(--muted);line-height:1.5;margin-top:22px}
+
+.full-player{position:fixed;inset:0;z-index:20;background:radial-gradient(ellipse at 50% 5%,#1b3b60 0,#071426 62%);padding:calc(18px + env(safe-area-inset-top)) 22px calc(22px + env(safe-area-inset-bottom));display:none;flex-direction:column;color:var(--txt);overflow:auto}
+.full-player.open{display:flex}.fp-top{display:flex;align-items:center;justify-content:space-between}.fp-label{font-size:11px;letter-spacing:2px;color:var(--muted)}.fp-close{border:1px solid #ffffff22;background:#ffffff0a;color:var(--txt);width:40px;height:40px;border-radius:50%;font-size:21px}
+.fp-art{width:min(78vw,360px);aspect-ratio:1;margin:auto auto 28px;border-radius:24px;overflow:hidden;box-shadow:0 22px 65px #0008;border:1px solid #ffffff20;display:grid;place-items:center;background:linear-gradient(135deg,#1e4266,#b88c48);font-size:90px;color:#f4d99d;animation:artIn .35s ease}
+.fp-art img{width:100%;height:100%;object-fit:cover}.fp-info{width:min(100%,480px);margin:0 auto}.fp-info .title{font-size:22px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.fp-info .artist{font-size:14px}.fp-actions{display:flex;align-items:center;justify-content:space-between;margin-top:16px}.fp-actions button{background:transparent;border:0;color:var(--gold2);font-size:25px;padding:10px}.fp-progress{display:flex;align-items:center;gap:10px;margin-top:22px;color:var(--muted);font-size:11px}.fp-progress input{flex:1;accent-color:var(--gold);min-width:0}.fp-controls{display:flex;align-items:center;justify-content:space-around;margin:18px 0 24px}.fp-controls button{border:0;background:transparent;color:var(--txt);font-size:28px;padding:10px}.fp-controls .fp-play{width:66px;height:66px;border-radius:50%;background:linear-gradient(135deg,#f0d69a,#c49a52);color:#101a28;font-size:27px;box-shadow:0 8px 25px #d9b56840}.fp-bottom{margin-top:auto;text-align:center;color:var(--muted);font-size:11px;letter-spacing:1px}
+@keyframes artIn{from{transform:scale(.96);opacity:.6}to{transform:scale(1);opacity:1}}
+@media(min-width:600px){.fp-art{width:min(52vh,390px)}}
+
 @media(min-width:600px){main{padding:24px}}
 </style></head>
 <body>
-<header><div><div class="logo">NOCTA</div><div class="tag">YOUR MUSIC. YOUR SPACE.</div></div><div class="tag">v1.7</div></header>
+<header><div><div class="logo">NOCTA</div><div class="tag">YOUR MUSIC. YOUR SPACE.</div></div><div class="tag">v1.8</div></header>
 <main>
 <h2 id="sectionTitle">Tu biblioteca</h2><p class="sub" id="sectionSub">Tu música, organizada a tu manera.</p>
 <div class="search"><span>⌕</span><input id="search" placeholder="Buscar canciones o artistas..." autocomplete="off"></div>
@@ -40,12 +48,21 @@ main{max-width:740px;margin:auto;padding:17px}h2{font-size:18px;margin:20px 0 10
 <button class="tab active" data-tab="all">Todas</button><button class="tab" data-tab="favorites">Favoritas</button><button class="tab" data-tab="playlists">Playlists</button><button class="tab" data-tab="queue">Cola</button><button class="tab" data-tab="history">Historial</button><button class="tab" data-tab="trueno">Trueno</button>
 </div>
 <div id="list"></div>
-<p class="note">NOCTA reproduce archivos de audio que importes desde tu teléfono. Los archivos quedan guardados en la biblioteca local de este navegador. NOCTA 1.7 incorpora historial de reproducción y portadas personalizadas. NOCTA 1.7 también conserva un reproductor oficial de YouTube integrado en la sección Trueno y herramientas para exportar/importar un respaldo al cambiar de dirección web. La reproducción se realiza dentro de NOCTA mediante el reproductor de YouTube; requiere conexión a internet y puede mostrar anuncios o restricciones del titular. También mejora el modo aleatorio para evitar repetir inmediatamente la canción actual. La reproducción en segundo plano y con pantalla apagada depende de Chrome, Android y el ahorro de batería; para mayor fiabilidad hace falta una app Android nativa con Media3.</p>
+<p class="note">NOCTA reproduce archivos de audio que importes desde tu teléfono. Los archivos quedan guardados en la biblioteca local de este navegador. NOCTA 1.8 incorpora una pantalla de reproducción completa, además del historial de reproducción y las portadas personalizadas de la versión anterior. NOCTA 1.7 también conserva un reproductor oficial de YouTube integrado en la sección Trueno y herramientas para exportar/importar un respaldo al cambiar de dirección web. La reproducción se realiza dentro de NOCTA mediante el reproductor de YouTube; requiere conexión a internet y puede mostrar anuncios o restricciones del titular. También mejora el modo aleatorio para evitar repetir inmediatamente la canción actual. La reproducción en segundo plano y con pantalla apagada depende de Chrome, Android y el ahorro de batería; para mayor fiabilidad hace falta una app Android nativa con Media3.</p>
 </main>
 <div class="player">
 <div class="now"><div class="cover">♫</div><div class="meta"><div class="title" id="nowTitle">Elegí una canción</div><div class="artist" id="nowArtist">NOCTA Player</div></div><button class="icon" id="nowFav">♡</button></div>
 <div class="progress"><span id="current">0:00</span><input id="seek" type="range" min="0" max="1000" value="0"><span id="duration">0:00</span></div>
 <div class="controls"><button class="icon" id="shuffle">⤨</button><button class="icon" id="prev">⏮</button><button class="play" id="play">▶</button><button class="icon" id="next">⏭</button><button class="icon" id="repeat">↻</button></div>
+</div>
+<div class="full-player" id="fullPlayer" aria-hidden="true">
+ <div class="fp-top"><button class="fp-close" id="closeFull" aria-label="Cerrar">⌄</button><div class="fp-label">REPRODUCIENDO DESDE TU BIBLIOTECA</div><span style="width:40px"></span></div>
+ <div class="fp-art" id="fpArt">♫</div>
+ <div class="fp-info"><div class="title" id="fpTitle">Elegí una canción</div><div class="artist" id="fpArtist">NOCTA Player</div>
+  <div class="fp-actions"><button id="fpShuffle" aria-label="Aleatorio">⤨</button><button id="fpFav" aria-label="Favorita">♡</button><button id="fpRepeat" aria-label="Repetir">↻</button></div>
+  <div class="fp-progress"><span id="fpCurrent">0:00</span><input id="fpSeek" type="range" min="0" max="1000" value="0"><span id="fpDuration">0:00</span></div>
+  <div class="fp-controls"><button id="fpPrev" aria-label="Anterior">⏮</button><button class="fp-play" id="fpPlay" aria-label="Reproducir">▶</button><button id="fpNext" aria-label="Siguiente">⏭</button></div>
+ </div><div class="fp-bottom">NOCTA · YOUR MUSIC. YOUR SPACE.</div>
 </div><audio id="audio" preload="metadata" playsinline></audio>
 <script>
 const DB='nocta-db', TRACKS='tracks', PLAYLISTS='playlists';let db,tracks=[],playlists=[],queue=[],currentId=null,currentUrl=null,tab='all',activePlaylist=null,shuffle=false,repeat=false;
@@ -89,7 +106,10 @@ function render(){
  if(tab==='playlists'){let ps=playlists.filter(p=>p.name.toLowerCase().includes(q));list.innerHTML=ps.length?ps.map(p=>`<div class="playlist"><div class="cover">♫</div><div class="meta" data-openpl="${p.id}"><div class="title">${esc(p.name)}</div><div class="artist">${p.trackIds.length} canciones</div></div><button class="icon" data-openpl="${p.id}">›</button><button class="icon" data-delpl="${p.id}">×</button></div>`).join(''):'<div class="empty">Todavía no creaste playlists.<br>Usá “Nueva playlist” para armar la primera.</div>';return}
  let arr=visibleTracks();list.innerHTML=arr.length?arr.map(t=>`<div class="track">${coverHTML(t)}<div class="meta" data-play="${t.id}"><div class="title">${esc(t.name)}</div><div class="artist">${esc(t.artist||'Archivo local')} · ${fmt(t.duration||0)}</div></div><button class="icon" data-cover="${t.id}" title="Cambiar portada">▧</button><button class="icon" data-queue="${t.id}" title="Agregar a la cola">≡</button><button class="icon" data-add="${t.id}" title="Agregar a playlist">＋</button><button class="icon" data-fav="${t.id}">${t.favorite?'♥':'♡'}</button><button class="icon" data-play="${t.id}">▶</button></div>`).join(''):'<div class="empty">'+(tracks.length?'No se encontraron canciones.':'Importá música desde tu teléfono para empezar.')+'</div>';
 }
-function updateNow(){let t=tracks.find(x=>x.id===currentId);let nowCover=document.querySelector('.now .cover');if(nowCover)nowCover.outerHTML=coverHTML(t,true);$('nowTitle').textContent=t?t.name:'Elegí una canción';$('nowArtist').textContent=t?(t.artist||'Archivo local'):'NOCTA Player';$('nowFav').textContent=t&&t.favorite?'♥':'♡'}
+function updateNow(){let t=tracks.find(x=>x.id===currentId);let nowCover=document.querySelector('.now .cover');if(nowCover)nowCover.outerHTML=coverHTML(t,true);$('nowTitle').textContent=t?t.name:'Elegí una canción';$('nowArtist').textContent=t?(t.artist||'Archivo local'):'NOCTA Player';$('nowFav').textContent=t&&t.favorite?'♥':'♡';updateFullPlayer()}
+function updateFullPlayer(){let t=tracks.find(x=>x.id===currentId);$('fpTitle').textContent=t?t.name:'Elegí una canción';$('fpArtist').textContent=t?(t.artist||'Archivo local'):'NOCTA Player';$('fpFav').textContent=t&&t.favorite?'♥':'♡';$('fpArt').innerHTML=t&&t.coverData?'<img src="'+t.coverData+'" alt="Portada">':'♫';$('fpPlay').textContent=audio.paused?'▶':'Ⅱ';$('fpShuffle').style.color=shuffle?'#f0d69a':'';$('fpRepeat').style.color=repeat?'#f0d69a':''}
+function openFullPlayer(){updateFullPlayer();$('fullPlayer').classList.add('open');$('fullPlayer').setAttribute('aria-hidden','false')}
+function closeFullPlayer(){$('fullPlayer').classList.remove('open');$('fullPlayer').setAttribute('aria-hidden','true')}
 function setupMediaSession(t){
  if(!('mediaSession' in navigator))return;
  try{
@@ -127,7 +147,7 @@ async function blobToDataURL(blob){return await new Promise((resolve,reject)=>{l
 async function exportBackup(){
  try{
   const savedTracks=await all(TRACKS), savedPlaylists=await all(PLAYLISTS);
-  const payload={app:'NOCTA',version:'1.7',createdAt:new Date().toISOString(),tracks:await Promise.all(savedTracks.map(async t=>({...t,blobData:t.blob?await blobToDataURL(t.blob):null,blob:undefined}))),playlists:savedPlaylists};
+  const payload={app:'NOCTA',version:'1.8',createdAt:new Date().toISOString(),tracks:await Promise.all(savedTracks.map(async t=>({...t,blobData:t.blob?await blobToDataURL(t.blob):null,blob:undefined}))),playlists:savedPlaylists};
   const blob=new Blob([JSON.stringify(payload)],{type:'application/json'}),url=URL.createObjectURL(blob),a=document.createElement('a');
   a.href=url;a.download='NOCTA_respaldo.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1500);
   alert('Respaldo exportado. Guardalo antes de cambiar NOCTA a HTTPS.');
@@ -159,9 +179,14 @@ $('newPlaylist').onclick=async()=>{
 };
 $('search').oninput=render;$('clear').onclick=()=>{$('search').value='';render()};
 document.querySelectorAll('.tab').forEach(b=>b.onclick=()=>{tab=b.dataset.tab;activePlaylist=null;$('sectionTitle').textContent=tab==='favorites'?'Tus favoritas':tab==='playlists'?'Tus playlists':tab==='queue'?'Cola de reproducción':tab==='history'?'Historial de reproducción':tab==='trueno'?'Trueno':'Tu biblioteca';$('sectionSub').textContent=tab==='playlists'?'Colecciones creadas por vos':tab==='queue'?'Próximas canciones':tab==='history'?'Tus últimas canciones reproducidas':tab==='trueno'?'Canciones y accesos a fuentes oficiales':'Tu música, organizada a tu manera.';document.querySelectorAll('.tab').forEach(x=>x.classList.toggle('active',x===b));render()});
-$('play').onclick=()=>{if(!currentId){if(tracks[0])playTrack(tracks[0].id)}else if(audio.paused)audio.play();else audio.pause()};audio.onplay=()=>{$('play').textContent='Ⅱ';updateMediaState()};audio.onpause=()=>{$('play').textContent='▶';updateMediaState()};audio.onloadedmetadata=updateMediaState;audio.ondurationchange=updateMediaState;audio.onended=()=>repeat?(audio.currentTime=0,audio.play()):next();
+$('play').onclick=()=>{if(!currentId){if(tracks[0])playTrack(tracks[0].id)}else if(audio.paused)audio.play();else audio.pause()};audio.onplay=()=>{$('play').textContent='Ⅱ';updateMediaState();updateFullPlayer()};audio.onpause=()=>{$('play').textContent='▶';updateMediaState();updateFullPlayer()};audio.onloadedmetadata=updateMediaState;audio.ondurationchange=updateMediaState;audio.onended=()=>repeat?(audio.currentTime=0,audio.play()):next();
 $('next').onclick=next;$('prev').onclick=previous;$('shuffle').onclick=()=>{shuffle=!shuffle;$('shuffle').style.color=shuffle?'#f0d69a':''};$('repeat').onclick=()=>{repeat=!repeat;$('repeat').style.color=repeat?'#f0d69a':''};
 $('nowFav').onclick=async()=>{let t=tracks.find(x=>x.id===currentId);if(!t)return;t.favorite=!t.favorite;await save(TRACKS,t);updateNow();render()};
-audio.ontimeupdate=()=>{if(audio.duration){$('seek').value=audio.currentTime/audio.duration*1000;$('current').textContent=fmt(audio.currentTime);$('duration').textContent=fmt(audio.duration);if('mediaSession'in navigator&&Math.floor(audio.currentTime)%5===0)updateMediaState()}};$('seek').oninput=()=>{if(audio.duration)audio.currentTime=Number($('seek').value)/1000*audio.duration};
+audio.ontimeupdate=()=>{if(audio.duration){let v=audio.currentTime/audio.duration*1000;$('seek').value=v;$('fpSeek').value=v;$('current').textContent=fmt(audio.currentTime);$('duration').textContent=fmt(audio.duration);$('fpCurrent').textContent=fmt(audio.currentTime);$('fpDuration').textContent=fmt(audio.duration);if('mediaSession'in navigator&&Math.floor(audio.currentTime)%5===0)updateMediaState()}};$('nowTitle').parentElement.parentElement.onclick=e=>{if(e.target.closest('#nowFav'))return;openFullPlayer()};$('closeFull').onclick=closeFullPlayer;
+$('fpPlay').onclick=()=>{if(!currentId){if(tracks[0])playTrack(tracks[0].id)}else if(audio.paused)audio.play();else audio.pause()};$('fpPrev').onclick=previous;$('fpNext').onclick=next;
+$('fpFav').onclick=async()=>{let t=tracks.find(x=>x.id===currentId);if(!t)return;t.favorite=!t.favorite;await save(TRACKS,t);updateNow();render()};
+$('fpShuffle').onclick=()=>{shuffle=!shuffle;$('shuffle').style.color=shuffle?'#f0d69a':'';updateFullPlayer()};$('fpRepeat').onclick=()=>{repeat=!repeat;$('repeat').style.color=repeat?'#f0d69a':'';updateFullPlayer()};
+$('fpSeek').oninput=()=>{if(audio.duration)audio.currentTime=Number($('fpSeek').value)/1000*audio.duration};
+$('seek').oninput=()=>{if(audio.duration)audio.currentTime=Number($('seek').value)/1000*audio.duration};
 (async()=>{try{db=await openDB();tracks=await all(TRACKS);playlists=await all(PLAYLISTS);render()}catch(e){$('list').innerHTML='<div class="empty">No se pudo abrir la biblioteca local.</div>'}})();
 </script></body></html>
